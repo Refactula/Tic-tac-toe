@@ -13,8 +13,8 @@ public class TicTacToeGame
     
     public interface IListener
     {
-        void OnPutSucceeded();
-        void OnPutFailed(String reason);
+		void OnPutSucceeded(int column, int row, Mark mark);
+		void OnPutFailed(int column, int row, String reason);
     }
 
     public static readonly Mark[] MoveOrder = { Mark.Cross, Mark.Nought };
@@ -33,25 +33,26 @@ public class TicTacToeGame
         if (column < 0 || column >= Columns || row < 0 || row >= Rows)
         {
             if (Listener != null)
-                Listener.OnPutFailed("Outside the board");
+                Listener.OnPutFailed(column, row, "Outside the board");
             return;
         }
 
         if (Board[column, row] != Mark.Unmarked)
         {
             if (Listener != null)
-                Listener.OnPutFailed("This cell is already occupied");
+                Listener.OnPutFailed(column, row, "This cell is already occupied");
             return;
         }
 
         Mark currentMark = MoveOrder[CurrentMove % MoveOrder.Length];
         Board[column, row] = currentMark;
-        CurrentMove++;
 
         // TODO find out if game has ended
 
         if (Listener != null)
-            Listener.OnPutSucceeded();
+			Listener.OnPutSucceeded(column, row, currentMark);
+		
+		CurrentMove++;
     }
 
     public void SetListener(IListener listener)

@@ -3,16 +3,19 @@ using System.Collections;
 
 public class CellScript : MonoBehaviour {
 
-	public int column;
-	public int row;
+	public int Column;
+	public int Row;
 
-	public GameObject gameControllerObject;
+	public GameObject GameViewObject;
+	public Sprite CrossSprite;
+	public Sprite NoughtSprite;
 
-	private GameController gameController;
+	private GameViewScript GameView;
 
 	// Use this for initialization
 	void Start () {
-		gameController = gameControllerObject.GetComponent ("GameController") as GameController;	
+		GameView = GameViewObject.GetComponent ("GameViewScript") as GameViewScript;	
+		GameView.RegisterCell (this);
 	}
 	
 	// Update is called once per frame
@@ -21,6 +24,22 @@ public class CellScript : MonoBehaviour {
 	}
 
 	void OnMouseDown() {
-		gameController.OnPutCellRequest (column, row);
+		GameView.OnPutCellRequested (Column, Row);
 	}
+
+	public void Become(TicTacToeGame.Mark mark) {
+		SpriteRenderer renderer = GetComponent ("SpriteRenderer") as SpriteRenderer;
+		switch (mark) {
+		case TicTacToeGame.Mark.Cross:
+			renderer.sprite = CrossSprite;
+			break;
+		case TicTacToeGame.Mark.Nought:
+			renderer.sprite = NoughtSprite;
+			break;
+		default:
+			renderer.sprite = null;
+			break;
+		}
+	}
+
 }
