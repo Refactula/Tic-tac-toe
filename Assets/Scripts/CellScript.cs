@@ -1,45 +1,52 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CellScript : MonoBehaviour {
+public class CellScript : MonoBehaviour
+{
 
-	public int Column;
-	public int Row;
+    public int Column;
+    public int Row;
 
-	public GameObject GameViewObject;
-	public Sprite CrossSprite;
-	public Sprite NoughtSprite;
+    public GameObject Scripts;
+    public Sprite CrossSprite;
+    public Sprite NoughtSprite;
 
-	private GameViewScript GameView;
+    private GameView GameView;
 
-	// Use this for initialization
-	void Start () {
-		GameView = GameViewObject.GetComponent ("GameViewScript") as GameViewScript;	
-		GameView.RegisterCell (this);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    // Use this for initialization
+    void Start()
+    {
+        GameView = Scripts.GetComponent("GameView") as GameView;
+        GameView.RegisterCell(this);
+    }
 
-	void OnMouseDown() {
-		GameView.OnPutCellRequested (Column, Row);
-	}
+    // Update is called once per frame
+    void Update()
+    {
 
-	public void Become(TicTacToeGame.Mark mark) {
-		SpriteRenderer renderer = GetComponent ("SpriteRenderer") as SpriteRenderer;
-		switch (mark) {
-		case TicTacToeGame.Mark.Cross:
-			renderer.sprite = CrossSprite;
-			break;
-		case TicTacToeGame.Mark.Nought:
-			renderer.sprite = NoughtSprite;
-			break;
-		default:
-			renderer.sprite = null;
-			break;
-		}
-	}
+    }
+
+    void OnMouseDown()
+    {
+        GameView.OnPutMarkRequested(Column, Row);
+    }
+
+    public void Become(TicTacToeGame.Mark mark)
+    {
+        SpriteRenderer renderer = GetComponent("SpriteRenderer") as SpriteRenderer;
+        renderer.sprite = SpriteOf(mark);
+    }
+
+    private Sprite SpriteOf(TicTacToeGame.Mark mark)
+    {
+        switch (mark)
+        {
+            case TicTacToeGame.Mark.Cross:
+                return CrossSprite;
+            case TicTacToeGame.Mark.Nought:
+                return NoughtSprite;
+        }
+        return null;
+    }
 
 }

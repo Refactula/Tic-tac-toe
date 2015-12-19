@@ -17,47 +17,54 @@ public class TicTacToeGame
 		void OnPutFailed(int column, int row, String reason);
     }
 
-    public static readonly Mark[] MoveOrder = { Mark.Cross, Mark.Nought };
+    public static readonly Mark[] Turns = { Mark.Cross, Mark.Nought };
     
     private Mark[,] Board = new Mark[Columns, Rows];
     private int CurrentMove = 0;
-    private IListener Listener; 
+    private List<IListener> Listeners = new List<IListener>(); 
 
     public Mark Get(int column, int row)
     {
         return Board[column, row];
     }
 
-    public void Put(int column, int row)
+    public void Put(int column, int row, Mark mark)
     {
         if (column < 0 || column >= Columns || row < 0 || row >= Rows)
         {
-            if (Listener != null)
-                Listener.OnPutFailed(column, row, "Outside the board");
+            Listeners.ForEach(listener => listener.OnPutFailed(column, row, "Outside the board"));
             return;
         }
 
         if (Board[column, row] != Mark.Unmarked)
         {
-            if (Listener != null)
-                Listener.OnPutFailed(column, row, "This cell is already occupied");
+            Listeners.ForEach(listener => listener.OnPutFailed(column, row, "This cell is already occupied"));
             return;
         }
 
-        Mark currentMark = MoveOrder[CurrentMove % MoveOrder.Length];
-        Board[column, row] = currentMark;
+        if (mark != GetCurrentTurn())
+        {
+            Listeners.ForEach(listener => listener.OnPutFailed(column, row, "Trying to put wrong mark"));
+            return;
+        }
+
+        Board[column, row] = mark;
 
         // TODO find out if game has ended
 
-        if (Listener != null)
-			Listener.OnPutSucceeded(column, row, currentMark);
-		
-		CurrentMove++;
+        Listeners.ForEach(listener => listener.OnPutSucceeded(column, row, mark));
+
+        CurrentMove++;
     }
 
-    public void SetListener(IListener listener)
+    public Mark GetCurrentTurn()
     {
-        this.Listener = listener;
+        return Turns[CurrentMove % Turns.Length];
+    }
+
+    public void AddListener(IListener listener)
+    {
+        Listeners.Add(listener);
     }
 
 	public void LogState () 
