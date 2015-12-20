@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class GameController : MonoBehaviour
 {
@@ -7,29 +7,37 @@ public class GameController : MonoBehaviour
     private GameView GameView;
 
     private TicTacToeGame Game;
-    private IPlayer[] Players;
+    private List<IPlayer> Players = new List<IPlayer>();
 
     void Start()
     {
         GameView = GetComponent("GameView") as GameView;
         Game = new TicTacToeGame();
         Game.AddListener(GameView);
-        Players = new IPlayer[] {
-            CreateGUIPlayer(TicTacToeGame.Mark.Cross),
-            CreateGUIPlayer(TicTacToeGame.Mark.Nought)
-        };
+        CreateGUIPlayer(TicTacToeGame.Mark.Cross);
+        CreateAIPlayer(TicTacToeGame.Mark.Nought);
     }
 
-    private GUIPlayer CreateGUIPlayer(TicTacToeGame.Mark mark)
+    private void CreateGUIPlayer(TicTacToeGame.Mark mark)
     {
         GUIPlayer player = new GUIPlayer(this, mark);
+        Players.Add(player);
+        Game.AddListener(player);
         GameView.RegisterGUIPlayer(player);
-        return player;
+    }
+
+    private void CreateAIPlayer(TicTacToeGame.Mark mark)
+    {
+        AIPlayer player = new AIPlayer(this, mark);
+        Players.Add(player);
+        Game.AddListener(player);
     }
 
     void Update()
     {
-
+        foreach (IPlayer player in Players)
+            if (player.OnActAllowed())
+                break;
     }
 
     public void OnPutCellRequest(int column, int row, TicTacToeGame.Mark mark)
@@ -42,16 +50,6 @@ public class GameController : MonoBehaviour
     public TicTacToeGame GetGame()
     {
         return Game;
-    }
-
-    public int GetPlayersCount()
-    {
-        return Players.Length;
-    }
-
-    public IPlayer GetPlayer(int i)
-    {
-        return Players[i];
     }
 
 }

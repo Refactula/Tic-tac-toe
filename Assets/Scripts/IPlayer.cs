@@ -5,5 +5,5 @@ using System.Text;
 
 public interface IPlayer : TicTacToeGame.IListener
 {
-    
+    bool OnActAllowed();
 }

@@ -14,6 +14,11 @@ public class GUIPlayer : IPlayer
         Mark = mark;
     }
 
+    public bool OnActAllowed()
+    {
+        return false;
+    }
+
     public void OnPutFailed(int column, int row, string reason)
     {
         
