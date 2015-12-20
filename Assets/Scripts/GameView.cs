@@ -48,6 +48,11 @@ public class GameView : MonoBehaviour, TicTacToeGame.IListener
         Debug.LogWarning("Failed to mark a cell (" + column + ", " + row + "): " + reason);
     }
 
+    public void OnGameOver(TicTacToeGame.Mark winnerMark)
+    {
+        Debug.Log("GameOver! Winner is " + winnerMark);
+    }
+
     public void RegisterGUIPlayer(GUIPlayer player)
     {
         Players.Add(player);

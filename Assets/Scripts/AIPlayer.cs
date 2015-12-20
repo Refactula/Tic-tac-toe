@@ -28,11 +28,16 @@ public class AIPlayer : IPlayer
     {
 
     }
+    
+    public void OnGameOver(TicTacToeGame.Mark winnerMark)
+    {
+
+    }
 
     public bool OnActAllowed()
     {
         TicTacToeGame game = GameController.GetGame();
-        if (game.GetCurrentTurn() == Mark)
+        if (!game.IsGameOver() && game.GetCurrentTurn() == Mark)
             for (int c = 0; c < TicTacToeGame.Columns; c++)
                 for (int r = 0; r < TicTacToeGame.Rows; r++)
                     if (game.Get(c, r) == TicTacToeGame.Mark.Unmarked)

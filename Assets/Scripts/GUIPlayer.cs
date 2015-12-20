@@ -28,6 +28,12 @@ public class GUIPlayer : IPlayer
     {
 
     }
+    
+    public void OnGameOver(TicTacToeGame.Mark winnerMark)
+    {
+
+    }
+
 
     public bool OnPutMarkRequested(int column, int row)
     {
