@@ -4,8 +4,11 @@ using System.Collections.Generic;
 public class GameView : MonoBehaviour, TicTacToeGame.IListener
 {
 
-    private GameController GameController;
+    public GameObject WinnerLineObject;
 
+    private GameController GameController;
+    private WinnerLine WinnerLine;
+    
     private CellScript[,] Cells = new CellScript[TicTacToeGame.Columns, TicTacToeGame.Rows];
 
     private List<GUIPlayer> Players = new List<GUIPlayer>();
@@ -14,6 +17,8 @@ public class GameView : MonoBehaviour, TicTacToeGame.IListener
     void Start()
     {
         GameController = GetComponent("GameController") as GameController;
+        WinnerLine = WinnerLineObject.GetComponent("WinnerLine") as WinnerLine;
+        GameController.RequestSubscribe(WinnerLine);
     }
 
     // Update is called once per frame
@@ -48,7 +53,7 @@ public class GameView : MonoBehaviour, TicTacToeGame.IListener
         Debug.LogWarning("Failed to mark a cell (" + column + ", " + row + "): " + reason);
     }
 
-    public void OnGameOver(TicTacToeGame.Mark winnerMark)
+    public void OnGameOver(TicTacToeGame.Mark winnerMark, int variant)
     {
         Debug.Log("GameOver! Winner is " + winnerMark);
     }
@@ -56,6 +61,11 @@ public class GameView : MonoBehaviour, TicTacToeGame.IListener
     public void RegisterGUIPlayer(GUIPlayer player)
     {
         Players.Add(player);
+    }
+
+    public CellScript GetCell(int column, int row)
+    {
+        return Cells[column, row];
     }
 
 }

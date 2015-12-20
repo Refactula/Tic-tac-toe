@@ -29,7 +29,7 @@ public class GUIPlayer : IPlayer
 
     }
     
-    public void OnGameOver(TicTacToeGame.Mark winnerMark)
+    public void OnGameOver(TicTacToeGame.Mark winnerMark, int variant)
     {
 
     }
@@ -39,7 +39,7 @@ public class GUIPlayer : IPlayer
     {
         if (GameController.GetGame().GetCurrentTurn() == Mark)
         {
-            GameController.OnPutCellRequest(column, row, Mark);
+            GameController.RequestPutCell(column, row, Mark);
             return true;
         }
         return false;

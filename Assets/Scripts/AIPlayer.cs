@@ -29,7 +29,7 @@ public class AIPlayer : IPlayer
 
     }
     
-    public void OnGameOver(TicTacToeGame.Mark winnerMark)
+    public void OnGameOver(TicTacToeGame.Mark winnerMark, int variant)
     {
 
     }
@@ -42,7 +42,7 @@ public class AIPlayer : IPlayer
                 for (int r = 0; r < TicTacToeGame.Rows; r++)
                     if (game.Get(c, r) == TicTacToeGame.Mark.Unmarked)
                     {
-                        GameController.OnPutCellRequest(c, r, Mark);
+                        GameController.RequestPutCell(c, r, Mark);
                         return true;
                     }
         return false;

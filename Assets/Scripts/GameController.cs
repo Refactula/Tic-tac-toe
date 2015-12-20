@@ -9,10 +9,14 @@ public class GameController : MonoBehaviour
     private TicTacToeGame Game;
     private List<IPlayer> Players = new List<IPlayer>();
 
+    public GameController()
+    {
+        Game = new TicTacToeGame();
+    }
+
     void Start()
     {
         GameView = GetComponent("GameView") as GameView;
-        Game = new TicTacToeGame();
         Game.AddListener(GameView);
         CreateGUIPlayer(TicTacToeGame.Mark.Cross);
         CreateAIPlayer(TicTacToeGame.Mark.Nought);
@@ -40,11 +44,16 @@ public class GameController : MonoBehaviour
                 break;
     }
 
-    public void OnPutCellRequest(int column, int row, TicTacToeGame.Mark mark)
+    public void RequestPutCell(int column, int row, TicTacToeGame.Mark mark)
     {
         Debug.Log("Put cell requested (" + column + ", " + row + ")");
         Game.Put(column, row, mark);
         Game.LogState();
+    }
+
+    public void RequestSubscribe(TicTacToeGame.IListener listener)
+    {
+        Game.AddListener(listener);
     }
 
     public TicTacToeGame GetGame()

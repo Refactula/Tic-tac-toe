@@ -11,12 +11,12 @@ public class TicTacToeGame
 
     public static int[,,] GameOverVariants =
     {
-        // Horizontal
+        // Vertical
         { {0, 0}, {0, 1}, {0, 2} },
         { {1, 0}, {1, 1}, {1, 2} },
         { {2, 0}, {2, 1}, {2, 2} },
-
-        // Vertical
+        
+        // Horizontal
         { {0, 0}, {1, 0}, {2, 0} },
         { {0, 1}, {1, 1}, {2, 1} },
         { {0, 2}, {1, 2}, {2, 2} },
@@ -33,7 +33,7 @@ public class TicTacToeGame
     {
 		void OnPutSucceeded(int column, int row, Mark mark);
 		void OnPutFailed(int column, int row, String reason);
-        void OnGameOver(Mark winnerMark);
+        void OnGameOver(Mark winnerMark, int variant);
     }
 
     public static readonly Mark[] Turns = { Mark.Cross, Mark.Nought };
@@ -54,6 +54,7 @@ public class TicTacToeGame
         if (GameOver)
         {
             Listeners.ForEach(listener => listener.OnPutFailed(column, row, "Game is overed"));
+            return;
         }
 
         if (column < 0 || column >= Columns || row < 0 || row >= Rows)
@@ -110,7 +111,7 @@ public class TicTacToeGame
             {
                 GameOver = true;
                 WinnerMark = winnerMark;
-                Listeners.ForEach(listener => listener.OnGameOver(winnerMark));
+                Listeners.ForEach(listener => listener.OnGameOver(winnerMark, i));
                 return;
             }
         }
