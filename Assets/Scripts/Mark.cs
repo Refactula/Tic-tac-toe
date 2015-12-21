@@ -3,6 +3,12 @@ using System.Collections;
 
 public class Mark : MonoBehaviour {
 
+    public Sprite CrossSpite;
+    public Sprite NoughtSprite;
+
+    public int Column;
+    public int Row;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -12,4 +18,9 @@ public class Mark : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    void OnMouseDown()
+    {
+        Debug.Log("Mark (" + Column + ", " + Row + ") has been clicked");
+    }
 }
