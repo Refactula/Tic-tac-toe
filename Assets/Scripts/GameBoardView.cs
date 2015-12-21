@@ -3,6 +3,11 @@ using System.Collections;
 
 public class GameBoardView : MonoBehaviour {
 
+    public GameBoardView()
+    {
+
+    }
+
 	// Use this for initialization
 	void Start () {
 	
