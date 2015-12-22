@@ -13,8 +13,7 @@ public class MarkView : MonoBehaviour
     private BoardView BoardView;
     private SpriteRenderer Renderer;
     private BoxCollider2D Collider;
-
-    // Use this for initialization
+    
     void Start()
     {
         this.BoardView = GetComponentInParent<BoardView>();
@@ -22,8 +21,7 @@ public class MarkView : MonoBehaviour
         this.Collider = GetComponent<BoxCollider2D>();
         BoardView.Register(this);
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
 
@@ -43,15 +41,7 @@ public class MarkView : MonoBehaviour
 
     private Sprite SpriteOf(Mark mark)
     {
-        if (mark == Mark.Cross)
-        {
-            return CrossSpite;
-        }
-        if (mark == Mark.Nought)
-        {
-            return NoughtSprite;
-        }
-        return null;
+        return (mark == Mark.Cross) ? CrossSpite : (mark == Mark.Nought) ? NoughtSprite : null;
     }
 
 }

@@ -8,17 +8,7 @@ public class Game
 
     public const int LineLength = 3;
 
-    public readonly Mark[] MoveOrder = { Mark.Cross, Mark.Nought };
-
-    private Mark[,] Board = new Mark[3, 3];
-
-    private AbstractPlayer[] Players;
-
-    private int MoveNumber = 0;
-
-    private Mark Winner = Mark.Unmarked;
-
-    private bool IsGameOvered = false;
+    public static readonly Mark[] MoveOrder = { Mark.Cross, Mark.Nought };
 
     private static readonly IList<Line> AllPossibleLines = new List<Line>();
 
@@ -48,6 +38,18 @@ public class Game
     {
         return column >= 0 && column < Columns && row >= 0 && row < Rows;
     }
+
+    private Mark[,] Board = new Mark[3, 3];
+
+    private AbstractPlayer[] Players;
+
+    private int MoveNumber = 0;
+
+    private Mark Winner = Mark.Unmarked;
+
+    private Line WinnerLine;
+
+    private bool IsGameOvered = false;
 
     public Game(AbstractPlayer crossPlayer, AbstractPlayer noughtPlayer)
     {
@@ -102,8 +104,13 @@ public class Game
 
     public void DetectGameOver()
     {
-        FindWinner();
-        DetectDraw();
+        if (!IsGameOvered)
+        {
+            FindWinner();
+        }
+        if (!IsGameOvered) {
+            DetectDraw();
+        }
     }
 
     private void FindWinner()
@@ -129,6 +136,7 @@ public class Game
             if (isGameOver)
             {
                 this.Winner = possibleWinner;
+                this.WinnerLine = line;
                 this.IsGameOvered = true;
                 return;
             }
@@ -137,10 +145,6 @@ public class Game
 
     private void DetectDraw()
     {
-        if (IsGameOvered)
-        {
-            return;
-        }
         bool isGameOver = true;
         for (var c = 0; isGameOver && c < Columns; c++)
         {
