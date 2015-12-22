@@ -3,8 +3,41 @@ using System.Collections;
 
 public class Line : MonoBehaviour {
 
-    public GameObject Cell0;
-    public GameObject Cell1;
-    public GameObject Cell2;
+    public GameObject CellObject0;
+    public GameObject CellObject1;
+    public GameObject CellObject2;
+
+    private Field Field;
+    private SpriteRenderer Renderer;
+
+    private Cell Cell0;
+    private Cell Cell1;
+    private Cell Cell2;
+
+    void Start()
+    {
+        Field = GetComponentInParent<Field>();
+        Renderer = GetComponent<SpriteRenderer>();
+
+        Cell0 = CellObject0.GetComponent<Cell>();
+        Cell1 = CellObject1.GetComponent<Cell>();
+        Cell2 = CellObject2.GetComponent<Cell>();
+
+        Cell0.AddLine(this);
+        Cell1.AddLine(this);
+        Cell2.AddLine(this);
+    }
+
+    public bool DetectGameOver()
+    {
+        if (Cell0.Mark == Cell1.Mark && Cell1.Mark == Cell2.Mark)
+        {
+            Debug.Log(Cell0.Mark + " = " + Cell1.Mark + " = " + Cell2.Mark);
+            Field.GameOver = true;
+            Renderer.enabled = true;
+            return true;
+        }
+        return false;
+    }
 
 }
