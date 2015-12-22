@@ -13,7 +13,7 @@ public class Cell : MonoBehaviour {
 
     private IList<Line> Lines = new List<Line>();
 
-    void Start()
+    void Awake()
     {
         this.Field = GetComponentInParent<Field>();
         this.Renderer = GetComponent<SpriteRenderer>();
@@ -26,7 +26,7 @@ public class Cell : MonoBehaviour {
 
     void OnMouseDown()
     {
-        if (Field.GameOver || Mark != Mark.Unmarked)
+        if (Field.IsGameOvered() || Mark != Mark.Unmarked)
         {
             return;
         }
@@ -38,9 +38,10 @@ public class Cell : MonoBehaviour {
             if (line.DetectGameOver())
             {
                 // Only one line should apper even if multiple are possible
-                break; 
+                return;
             }
         }
+        Field.OnCellMarked();
     }
 
 }

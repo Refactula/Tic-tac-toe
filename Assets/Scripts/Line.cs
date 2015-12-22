@@ -14,7 +14,7 @@ public class Line : MonoBehaviour {
     private Cell Cell1;
     private Cell Cell2;
 
-    void Start()
+    void Awake()
     {
         Field = GetComponentInParent<Field>();
         Renderer = GetComponent<SpriteRenderer>();
@@ -22,7 +22,10 @@ public class Line : MonoBehaviour {
         Cell0 = CellObject0.GetComponent<Cell>();
         Cell1 = CellObject1.GetComponent<Cell>();
         Cell2 = CellObject2.GetComponent<Cell>();
+    }
 
+    void Start()
+    {
         Cell0.AddLine(this);
         Cell1.AddLine(this);
         Cell2.AddLine(this);
@@ -33,8 +36,8 @@ public class Line : MonoBehaviour {
         if (Cell0.Mark == Cell1.Mark && Cell1.Mark == Cell2.Mark)
         {
             Debug.Log(Cell0.Mark + " = " + Cell1.Mark + " = " + Cell2.Mark);
-            Field.GameOver = true;
             Renderer.enabled = true;
+            Field.OnGameOvered();
             return true;
         }
         return false;
