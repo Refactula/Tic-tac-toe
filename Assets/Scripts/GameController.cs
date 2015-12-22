@@ -25,9 +25,13 @@ public class GameController : MonoBehaviour {
         return Game;
     }
 
-    public bool OnPutMarkRequested(int column, int row)
+    public void OnPutMarkRequested(int column, int row)
     {
-        return Game.Put(column, row, Game.GetCurrentMark());
+        if (Game.Put(column, row, Game.GetCurrentMark()))
+        {
+            BoardView.OnPutMark(column, row, Game.GetMark(column, row));
+            Game.DetectGameOver();
+        }
     }
 
 }

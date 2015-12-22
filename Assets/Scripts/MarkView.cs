@@ -31,10 +31,7 @@ public class MarkView : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (BoardView.OnPutMarkRequested(Column, Row))
-        {
-            Become(BoardView.GetGame().GetMark(Column, Row));
-        }
+        BoardView.OnPutMarkRequested(Column, Row);
     }
 
     public void Become(Mark mark)

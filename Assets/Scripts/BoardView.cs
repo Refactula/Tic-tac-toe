@@ -27,11 +27,16 @@ public class BoardView : MonoBehaviour {
         Marks[markView.Column, markView.Row] = markView;
     }
 
-    public bool OnPutMarkRequested(int column, int row)
+    public void OnPutMarkRequested(int column, int row)
     {
         // TODO: Check is current player is managed by GUI
 
-        return GameController.OnPutMarkRequested(column, row);
+        GameController.OnPutMarkRequested(column, row);
+    }
+
+    public void OnPutMark(int column, int row, Mark mark)
+    {
+        Marks[column, row].Become(mark);
     }
 
     public Game GetGame()
