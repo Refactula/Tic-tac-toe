@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MarkView : MonoBehaviour {
+public class MarkView : MonoBehaviour
+{
 
     public Sprite CrossSpite;
     public Sprite NoughtSprite;
@@ -9,23 +10,51 @@ public class MarkView : MonoBehaviour {
     public int Column;
     public int Row;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    private BoardView BoardView;
+    private SpriteRenderer Renderer;
+    private BoxCollider2D Collider;
+
+    // Use this for initialization
+    void Start()
+    {
+        this.BoardView = GetComponentInParent<BoardView>();
+        this.Renderer = GetComponent<SpriteRenderer>();
+        this.Collider = GetComponent<BoxCollider2D>();
+        BoardView.Register(this);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     void OnMouseDown()
     {
-        var renderer = GetComponent("SpriteRenderer") as SpriteRenderer;
-        var collider = GetComponent("BoxCollider2D") as BoxCollider2D;
-        renderer.sprite = CrossSpite;
-        renderer.enabled = true;
-        collider.enabled = false;
+        if (BoardView.OnPutMarkRequested(Column, Row))
+        {
+            Become(BoardView.GetGame().GetMark(Column, Row));
+        }
+    }
+
+    public void Become(Mark mark)
+    {
+        Renderer.sprite = SpriteOf(mark);
+        Renderer.enabled = mark != Mark.Unmarked;
+        Collider.enabled = mark == Mark.Unmarked;
+    }
+
+    private Sprite SpriteOf(Mark mark)
+    {
+        if (mark == Mark.Cross)
+        {
+            return CrossSpite;
+        }
+        if (mark == Mark.Nought)
+        {
+            return NoughtSprite;
+        }
+        return null;
     }
 
 }

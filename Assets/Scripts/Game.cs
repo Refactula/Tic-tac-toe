@@ -24,35 +24,41 @@ public class Game {
         }
     }
 
-    public void Put(int column, int row, Mark mark)
+    public bool Put(int column, int row, Mark mark)
     {
         if (IsGameOvered)
         {
             // Fail cause game is overed
-            return;
+            return false;
         }
 
         if (column < 0 || column >= Columns || row < 0 || row >= Rows)
         {
             // Fail cause outside border
-            return;
+            return false;
         }
 
-        if (Board[column, row] != Mark.Nothing)
+        if (Board[column, row] != Mark.Unmarked)
         {
             // Fail cause there is a mark on this position
-            return;
+            return false;
         }
 
         Mark currentMark = GetCurrentMark();
         if (mark != currentMark)
         {
             // Fail cause not his turn
-            return;
+            return false;
         }
 
         Board[column, row] = mark;
         MoveNumber++;
+        return true;
+    }
+
+    public Mark GetMark(int column, int row)
+    {
+        return Board[column, row];
     }
 
     public Mark GetCurrentMark()

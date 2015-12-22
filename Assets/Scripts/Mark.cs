@@ -2,7 +2,7 @@
 using System.Collections;
 
 public enum Mark {
-    Nothing,
+    Unmarked,
     Cross,
     Nought,
 }

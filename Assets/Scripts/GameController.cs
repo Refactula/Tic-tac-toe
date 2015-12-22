@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GameController : MonoBehaviour {
 
-    public GameBoardView GameView;
+    public BoardView BoardView;
 
     private Game Game;
 
@@ -11,15 +11,23 @@ public class GameController : MonoBehaviour {
     {
         Game = new Game(new HumanPlayer(), new HumanPlayer());
     }
-
-	// Use this for initialization
+    
 	void Start () {
-	
+
 	}
 	
-	// Update is called once per frame
 	void Update () {
 	
 	}
+
+    public Game GetGame()
+    {
+        return Game;
+    }
+
+    public bool OnPutMarkRequested(int column, int row)
+    {
+        return Game.Put(column, row, Game.GetCurrentMark());
+    }
 
 }
