@@ -1,1 +1,6 @@
 D:\Refactula\Unity\Tic-Tac-Toe\Assets\Scripts\Model\Model\bin\Debug\Model.exe.config
+D:\Refactula\Unity\Tic-Tac-Toe\Assets\Scripts\Model\Model\bin\Debug\Model.exe
+D:\Refactula\Unity\Tic-Tac-Toe\Assets\Scripts\Model\Model\bin\Debug\Model.pdb
+D:\Refactula\Unity\Tic-Tac-Toe\Assets\Scripts\Model\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache
+D:\Refactula\Unity\Tic-Tac-Toe\Assets\Scripts\Model\Model\obj\Debug\Model.exe
+D:\Refactula\Unity\Tic-Tac-Toe\Assets\Scripts\Model\Model\obj\Debug\Model.pdb

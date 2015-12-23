@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public interface IGameListener
 {
-    void OnPutMark(int column, int row, Mark mark);
-    void OnGameOver(Line winnerLine);
-    void OnNextPlayerTurn(Mark mark);
+    void OnPutMark(Game game, int column, int row, Mark mark);
+    void OnGameOver(Game game, Line winnerLine);
+    void OnNextPlayerTurn(Game game, Mark mark);
 }

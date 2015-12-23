@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-class Game
+public class Game
 {
     public const int Columns = 3;
     public const int Rows = 3;
@@ -49,18 +49,18 @@ class Game
         }
 
         Board[column, row] = mark;
-        Listeners.ForEach(listener => listener.OnPutMark(column, row, mark));
+        Listeners.ForEach(listener => listener.OnPutMark(this, column, row, mark));
 
         MoveNumber++;
         DetectGameOver();
 
         if (GameOver)
         {
-            Listeners.ForEach(listener => listener.OnGameOver(WinningLine));
+            Listeners.ForEach(listener => listener.OnGameOver(this, WinningLine));
         } 
         else
         {
-            Listeners.ForEach(listener => listener.OnNextPlayerTurn(GetCurrentMark()));
+            Listeners.ForEach(listener => listener.OnNextPlayerTurn(this, GetCurrentMark()));
         }
     }
 
