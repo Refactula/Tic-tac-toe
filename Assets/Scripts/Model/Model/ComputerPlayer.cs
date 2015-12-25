@@ -6,24 +6,26 @@ using System.Threading.Tasks;
 
 class ComputerPlayer : IGameListener
 {
+    private readonly IGameController GameController;
     private readonly Mark Mark;
 
-    public ComputerPlayer(Mark mark)
+    public ComputerPlayer(IGameController gameController, Mark mark)
     {
+        this.GameController = gameController;
         this.Mark = mark;
     }
 
-    public void OnGameOver(Game game, Line winnerLine)
+    public void OnGameOver(IGame game, Line winnerLine)
     {
 
     }
 
-    public void OnPutMark(Game game, int column, int row, Mark mark)
+    public void OnPutMark(IGame game, int column, int row, Mark mark)
     {
         
     }
 
-    public void OnNextPlayerTurn(Game game, Mark mark)
+    public void OnNextPlayerTurn(IGame game, Mark mark)
     {
         if (this.Mark == mark)
         {
@@ -31,7 +33,7 @@ class ComputerPlayer : IGameListener
         }
     }
 
-    private void Move(Game game)
+    private void Move(IGame game)
     {
         for (var c = 0; c < Game.Columns; c++)
         {
@@ -39,7 +41,7 @@ class ComputerPlayer : IGameListener
             {
                 if (game.Get(c, r) == Mark.Unmarked)
                 {
-                    game.Put(c, r, Mark);
+                    GameController.RequestPut(c, r, Mark);
                     return;
                 }
             }

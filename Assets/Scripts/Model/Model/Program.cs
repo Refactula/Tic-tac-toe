@@ -8,31 +8,45 @@ class Program
 {
     static void Main(string[] args)
     {
-        var game = new Game();
+        var game = new GameController();
 
-        game.Subscribe(new ConsoleLogger());
-        game.Subscribe(new ComputerPlayer(Mark.Nought));
-
-        game.Put(0, 0, Mark.Cross);
-        game.Put(1, 0, Mark.Cross);
-        game.Put(2, 0, Mark.Cross);
+        game.RequestPut(0, 0, Mark.Cross);
+        game.RequestPut(1, 0, Mark.Cross);
+        game.RequestPut(2, 0, Mark.Cross);
 
         Console.ReadKey();
     }
 
+    class GameController : IGameController
+    {
+        private Game game = new Game();
+
+        public GameController()
+        {
+            game.Subscribe(new ConsoleLogger());
+            game.Subscribe(new ComputerPlayer(this, Mark.Nought));
+        }
+
+        public void RequestPut(int column, int row, Mark mark)
+        {
+            game.Put(column, row, mark);
+        }
+
+    }
+
     class ConsoleLogger : IGameListener
     {
-        public void OnGameOver(Game game, Line winnerLine)
+        public void OnGameOver(IGame game, Line winnerLine)
         {
             Console.WriteLine("Game overed");
         }
 
-        public void OnNextPlayerTurn(Game game, Mark mark)
+        public void OnNextPlayerTurn(IGame game, Mark mark)
         {
             Console.WriteLine("Next player: " + mark);
         }
 
-        public void OnPutMark(Game game, int column, int row, Mark mark)
+        public void OnPutMark(IGame game, int column, int row, Mark mark)
         {
             for (var r = 0; r < Game.Rows; r++)
             {

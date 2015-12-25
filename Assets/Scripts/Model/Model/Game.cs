@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class Game
+public class Game : IGame
 {
     public const int Columns = 3;
     public const int Rows = 3;
