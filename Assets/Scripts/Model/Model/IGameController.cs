@@ -6,5 +6,7 @@ using System.Threading.Tasks;
 
 public interface IGameController
 {
+
     void RequestPut(int column, int row, Mark mark);
+
 }

@@ -19,7 +19,18 @@ public class Game : IGame
 
     private Line WinningLine = null;
 
+    private Mark WinnerMark = Mark.Unmarked;
+
     private List<IGameListener> Listeners = new List<IGameListener>();
+
+    public void Start()
+    {
+        if (MoveNumber > 0)
+        {
+            return;
+        }
+        Listeners.ForEach(listener => listener.OnNextPlayerTurn(this, GetCurrentMark()));
+    }
 
     public Mark Get(int column, int row)
     {
@@ -56,7 +67,7 @@ public class Game : IGame
 
         if (GameOver)
         {
-            Listeners.ForEach(listener => listener.OnGameOver(this, WinningLine));
+            Listeners.ForEach(listener => listener.OnGameOver(this, WinningLine, WinnerMark));
         } 
         else
         {
@@ -64,7 +75,7 @@ public class Game : IGame
         }
     }
 
-    private Mark GetCurrentMark()
+    public Mark GetCurrentMark()
     {
         return MoveSequence[MoveNumber % 2];
     }
@@ -74,13 +85,13 @@ public class Game : IGame
         // Detect win
         foreach (var line in Line.AllPossibleLines)
         {
-            Mark mark = Get(line.GetColumn(0), line.GetRow(0));
-            if (mark != Mark.Unmarked)
+            Mark winnerMark = Get(line.GetColumn(0), line.GetRow(0));
+            if (winnerMark != Mark.Unmarked)
             {
                 bool allSame = true;
                 for (var i = 1; allSame && i < Line.Size; i++)
                 {
-                    if (Get(line.GetColumn(i), line.GetRow(i)) != mark)
+                    if (Get(line.GetColumn(i), line.GetRow(i)) != winnerMark)
                     {
                         allSame = false;
                     }
@@ -89,6 +100,7 @@ public class Game : IGame
                 {
                     GameOver = true;
                     WinningLine = line;
+                    WinnerMark = winnerMark;
                     return;
                 }
             }
@@ -112,5 +124,20 @@ public class Game : IGame
     public void Subscribe(IGameListener listener)
     {
         Listeners.Add(listener);
+    }
+
+    public bool IsGameOvered()
+    {
+        return GameOver;
+    }
+
+    public Line GetWinningLine()
+    {
+        return WinningLine;
+    }
+
+    public Mark GetWinnerMark()
+    {
+        return WinnerMark;
     }
 }

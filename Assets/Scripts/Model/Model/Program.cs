@@ -10,10 +10,6 @@ class Program
     {
         var game = new GameController();
 
-        game.RequestPut(0, 0, Mark.Cross);
-        game.RequestPut(1, 0, Mark.Cross);
-        game.RequestPut(2, 0, Mark.Cross);
-
         Console.ReadKey();
     }
 
@@ -24,7 +20,9 @@ class Program
         public GameController()
         {
             game.Subscribe(new ConsoleLogger());
-            game.Subscribe(new ComputerPlayer(this, Mark.Nought));
+            game.Subscribe(new ComputerPlayer(this, Mark.Cross, new Random(), ComputerPlayer.HARDNESS_DUMB));
+            game.Subscribe(new ComputerPlayer(this, Mark.Nought, new Random(), ComputerPlayer.HARDNESS_HARD));
+            game.Start();
         }
 
         public void RequestPut(int column, int row, Mark mark)
@@ -36,9 +34,17 @@ class Program
 
     class ConsoleLogger : IGameListener
     {
-        public void OnGameOver(IGame game, Line winnerLine)
+        public void OnGameOver(IGame game, Line winnerLine, Mark winnerMark)
         {
-            Console.WriteLine("Game overed");
+            Console.Write("Game overed: ");
+            if (winnerMark != Mark.Unmarked)
+            {
+                Console.WriteLine("the winner is " + winnerMark);
+            }
+            else
+            {
+                Console.WriteLine("draw");
+            }
         }
 
         public void OnNextPlayerTurn(IGame game, Mark mark)
