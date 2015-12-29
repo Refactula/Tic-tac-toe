@@ -36,7 +36,7 @@ class Program
     {
         public void OnGameOver(IGame game, Line winnerLine, Mark winnerMark)
         {
-            Console.Write("Game overed: ");
+            Console.Write("Game overred: ");
             if (winnerMark != Mark.Unmarked)
             {
                 Console.WriteLine("the winner is " + winnerMark);

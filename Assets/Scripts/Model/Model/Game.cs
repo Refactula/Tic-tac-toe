@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/// <summary>
+///  This class is a mutable implementation of <see cref="IGame"/> interface.
+///  <seealso cref="IGame"/>
+/// </summary>
 public class Game : IGame
 {
     private const int _ColumnsAmount = 3;
@@ -17,9 +21,9 @@ public class Game : IGame
 
     private bool GameOver = false;
 
-    private Line WinningLine = null;
+    private Mark winnerMark = Mark.Unmarked;
 
-    private Mark WinnerMark = Mark.Unmarked;
+    private Line winningLine = null;
 
     private List<IGameListener> Listeners = new List<IGameListener>();
 
@@ -35,6 +39,22 @@ public class Game : IGame
         get
         {
             return _RowsAmount;
+        }
+    }
+
+    public Mark WinnerMark
+    {
+        get
+        {
+            return winnerMark;
+        }
+    }
+
+    public Line WinningLine
+    {
+        get
+        {
+            return winningLine;
         }
     }
 
@@ -114,8 +134,8 @@ public class Game : IGame
                 if (allSame)
                 {
                     GameOver = true;
-                    WinningLine = line;
-                    WinnerMark = winnerMark;
+                    this.winningLine = line;
+                    this.winnerMark = winnerMark;
                     return;
                 }
             }
@@ -149,15 +169,5 @@ public class Game : IGame
     public bool HasWinner()
     {
         return WinnerMark != Mark.Unmarked;
-    }
-
-    public Line GetWinningLine()
-    {
-        return WinningLine;
-    }
-
-    public Mark GetWinnerMark()
-    {
-        return WinnerMark;
     }
 }
