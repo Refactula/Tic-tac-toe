@@ -71,11 +71,11 @@ class ComputerPlayer : IGameListener
         }
 
         int unmarkedCount = 0;
-        for (var r = 0; r < Game.Rows; r++)
+        for (var r = 0; r < game.RowsAmount; r++)
         {
-            for (var c = 0; c < Game.Columns; c++)
+            for (var c = 0; c < game.ColumnsAmount; c++)
             {
-                if (game.Get(c, r) == Mark.Unmarked)
+                if (game.GetMark(c, r) == Mark.Unmarked)
                 {
                     unmarkedCount++;
                 }
@@ -85,11 +85,11 @@ class ComputerPlayer : IGameListener
         if (unmarkedCount > 0)
         {
             int randomMark = Random.Next(unmarkedCount);
-            for (var r = 0; r < Game.Rows; r++)
+            for (var r = 0; r < game.RowsAmount; r++)
             {
-                for (var c = 0; c < Game.Columns; c++)
+                for (var c = 0; c < game.ColumnsAmount; c++)
                 {
-                    if (game.Get(c, r) == Mark.Unmarked)
+                    if (game.GetMark(c, r) == Mark.Unmarked)
                     {
                         if (randomMark == 0)
                         {
@@ -108,7 +108,7 @@ class ComputerPlayer : IGameListener
         int index = -1;
         for (var i = 0; i < Line.Size; i++)
         {
-            Mark currentMark = game.Get(line.GetColumn(i), line.GetRow(i));
+            Mark currentMark = game.GetMark(line.GetColumn(i), line.GetRow(i));
             if (currentMark == Mark.Unmarked)
             {
                 if (index < 0)

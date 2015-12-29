@@ -54,14 +54,14 @@ class Program
 
         public void OnPutMark(IGame game, int column, int row, Mark mark)
         {
-            for (var r = 0; r < Game.Rows; r++)
+            for (var r = 0; r < game.RowsAmount; r++)
             {
-                for (var c = 0; c < Game.Columns; c++)
+                for (var c = 0; c < game.ColumnsAmount; c++)
                 {
-                    Mark m = game.Get(c, r);
+                    Mark m = game.GetMark(c, r);
                     char ch = m == Mark.Cross ? 'X' : m == Mark.Nought ? '0' : ' ';
                     Console.Write(ch);
-                    if (c < Game.Columns - 1)
+                    if (c < game.ColumnsAmount - 1)
                     {
                         Console.Write('|');
                     }
@@ -70,9 +70,9 @@ class Program
                         Console.WriteLine();
                     }
                 }
-                if (r < Game.Rows - 1)
+                if (r < game.RowsAmount - 1)
                 {
-                    for (int i = 0; i < Game.Columns * 2 - 1; i++) {
+                    for (int i = 0; i < game.ColumnsAmount * 2 - 1; i++) {
                         Console.Write('-');
                     }
                     Console.WriteLine();

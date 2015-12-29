@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 public class Game : IGame
 {
-    public const int Columns = 3;
-    public const int Rows = 3;
+    private const int _ColumnsAmount = 3;
+    private const int _RowsAmount = 3;
 
     private static readonly Mark[] MoveSequence = { Mark.Cross, Mark.Nought };
 
-    private Mark[,] Board = new Mark[Columns, Rows];
+    private Mark[,] Board = new Mark[_ColumnsAmount, _RowsAmount];
 
     private int MoveNumber = 0;
 
@@ -23,16 +23,31 @@ public class Game : IGame
 
     private List<IGameListener> Listeners = new List<IGameListener>();
 
+    public int ColumnsAmount {
+        get
+        {
+            return _ColumnsAmount;
+        }
+    }
+
+    public int RowsAmount
+    {
+        get
+        {
+            return _RowsAmount;
+        }
+    }
+
     public void Start()
     {
         if (MoveNumber > 0)
         {
             return;
         }
-        Listeners.ForEach(listener => listener.OnNextPlayerTurn(this, GetCurrentMark()));
+        Listeners.ForEach(listener => listener.OnNextPlayerTurn(this, GetCurrentTurn()));
     }
 
-    public Mark Get(int column, int row)
+    public Mark GetMark(int column, int row)
     {
         return Board[column, row];
     }
@@ -44,12 +59,12 @@ public class Game : IGame
             return;
         }
 
-        if (mark != GetCurrentMark())
+        if (mark != GetCurrentTurn())
         {
             return;
         }
 
-        if (column < 0 || column >= Columns || row < 0 || row >= Rows)
+        if (column < 0 || column >= ColumnsAmount || row < 0 || row >= _RowsAmount)
         {
             return;
         }
@@ -71,11 +86,11 @@ public class Game : IGame
         } 
         else
         {
-            Listeners.ForEach(listener => listener.OnNextPlayerTurn(this, GetCurrentMark()));
+            Listeners.ForEach(listener => listener.OnNextPlayerTurn(this, GetCurrentTurn()));
         }
     }
 
-    public Mark GetCurrentMark()
+    public Mark GetCurrentTurn()
     {
         return MoveSequence[MoveNumber % 2];
     }
@@ -85,13 +100,13 @@ public class Game : IGame
         // Detect win
         foreach (var line in Line.AllPossibleLines)
         {
-            Mark winnerMark = Get(line.GetColumn(0), line.GetRow(0));
+            Mark winnerMark = GetMark(line.GetColumn(0), line.GetRow(0));
             if (winnerMark != Mark.Unmarked)
             {
                 bool allSame = true;
                 for (var i = 1; allSame && i < Line.Size; i++)
                 {
-                    if (Get(line.GetColumn(i), line.GetRow(i)) != winnerMark)
+                    if (GetMark(line.GetColumn(i), line.GetRow(i)) != winnerMark)
                     {
                         allSame = false;
                     }
@@ -107,11 +122,11 @@ public class Game : IGame
         }
 
         // Detect draw
-        for (var column = 0; column < Columns; column++)
+        for (var column = 0; column < ColumnsAmount; column++)
         {
-            for (var row = 0; row < Rows; row++)
+            for (var row = 0; row < RowsAmount; row++)
             {
-                if (Get(column, row) == Mark.Unmarked)
+                if (GetMark(column, row) == Mark.Unmarked)
                 {
                     return;
                 }
@@ -126,9 +141,14 @@ public class Game : IGame
         Listeners.Add(listener);
     }
 
-    public bool IsGameOvered()
+    public bool IsOverred()
     {
         return GameOver;
+    }
+
+    public bool HasWinner()
+    {
+        return WinnerMark != Mark.Unmarked;
     }
 
     public Line GetWinningLine()
