@@ -35,9 +35,9 @@ public class GameController : MonoBehaviour, IGameController, IGameListener {
         StartCoroutine("PutLater", new object[3] { column, row, mark });
     }
 
-    public void RegisterMarkView(MarkView markView)
+    public void RegisterViewComponent(ViewComponent viewComponent)
     {
-        game.Subscribe(markView);
+        game.Subscribe(viewComponent);
     }
 
     public void OnPutMark(IGame game, int column, int row, Mark mark)
