@@ -25,28 +25,31 @@ public class Line
         new Line(2, 0, -1, 1),
     };
 
-    private int Column;
-    private int ColumnStep;
+    private int column;
+    private int columnStep;
 
-    private int Row;
-    private int RowStep;
+    private int row;
+    private int rowStep;
+
+    public int ColumnStep { get { return columnStep; } }
+    public int RowStep { get { return rowStep; } }
 
     public Line(int column, int row, int columnStep, int rowStep)
     {
-        this.Column = column;
-        this.Row = row;
-        this.ColumnStep = columnStep;
-        this.RowStep = rowStep;
+        this.column = column;
+        this.row = row;
+        this.columnStep = columnStep;
+        this.rowStep = rowStep;
     }
 
     public int GetColumn(int index)
     {
-        return Column + index * ColumnStep;
+        return column + index * columnStep;
     }
 
     public int GetRow(int index)
     {
-        return Row + index * RowStep;
+        return row + index * rowStep;
     }
 
 }

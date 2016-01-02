@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour, IGameController, IGameListener {
 
     void Awake()
     {
-        game.Subscribe(new ComputerPlayer(this, Mark.Nought, new System.Random(), ComputerPlayer.HARDNESS_HARD));
+        game.Subscribe(new ComputerPlayer(this, Mark.Nought, new System.Random(), ComputerPlayer.HARDNESS_DUMB));
         game.Subscribe(this);
     }
 
