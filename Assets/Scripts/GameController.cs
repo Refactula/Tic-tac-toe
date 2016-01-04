@@ -23,6 +23,12 @@ public class GameController : MonoBehaviour, IGameController, IGameListener {
         game.Subscribe(this);
     }
 
+    void Start()
+    {
+        Debug.Log("Setting the resolution");
+        Screen.SetResolution(500, 500, false);
+    }
+
     // Request from human player.
     public void OnClicked(int column, int row)
     {
